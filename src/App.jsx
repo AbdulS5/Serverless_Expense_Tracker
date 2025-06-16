@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useState} from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
+import Home from './pages/Home';
+import Chart from './pages/Chart';
+import Expenses from './pages/Expenses';
+import './App.css';
 
 function App() {
   // This is the main App component that renders the ExpenseForm component
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState(()=>{
+    const saved = localStorage.getItem("expenses");
+    return saved ? JSON.parse(saved):[];
+  });
+
+  useEffect(()=>{
+    localStorage.setItem("expenses",JSON.stringify(expenses))
+  },[expenses]);
 
   const handleAddExpense = (expense) => {
     // Function to handle adding a new expense
@@ -17,10 +30,15 @@ function App() {
   } 
   
   return (
-    <div style={{ padding: 20, maxWidth: 600, margin: 'auto' }}>
-      <h1>Expense Tracker</h1>
-      <ExpenseForm onAddExpense = {handleAddExpense}  />
-      <ExpenseList expenses={expenses} onDeleteExpense = {handleDeleteExpense}/>
+    <div className='app-container'>
+      <Sidebar />
+      <div className = "container">
+        <Routes>
+          <Route path = "/" element = {<Home expenses={expenses} onAddExpense = {handleAddExpense} onDeleteExpense = {handleDeleteExpense}/>} />
+          <Route path = "/expenses" element = {<Expenses/>} />
+          <Route path = "/chart" element = {<Chart/>} />
+        </Routes>
+      </div>
     </div>
   );
 }
