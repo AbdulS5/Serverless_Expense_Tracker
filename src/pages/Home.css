@@ -1,0 +1,15 @@
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 400px;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  
+  .chart-box {
+    flex: 1;
+    min-width: 300px;
+    max-width: 48%;
+  }
+  
