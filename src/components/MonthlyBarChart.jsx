@@ -3,6 +3,10 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 function MonthlyBarChart({expenses}) {
 
     const weeklyTotal = {};
+    const weekNames  = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];
+    for (const week of weekNames) {
+        weeklyTotal[week] = 0;
+    }
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
@@ -10,9 +14,6 @@ function MonthlyBarChart({expenses}) {
         const date = new Date(expense.date);
         if(date.getMonth() === currentMonth && date.getFullYear() === currentYear){
             const week = `Week ${Math.ceil(date.getDate()/7)}`;
-            if(!weeklyTotal[week]){
-                weeklyTotal[week] = 0;
-            }
             weeklyTotal[week] += expense.amount;
         }
     });
