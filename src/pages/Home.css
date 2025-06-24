@@ -1,3 +1,6 @@
+.home-container {
+  width: 100%;
+}
 .charts-container {
   display: flex;
   justify-content: space-between;
@@ -35,4 +38,52 @@
   font-size: 1.2rem;
   font-weight: 600;
   color: #374151;
+}
+
+.recent-expense-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  width: 100%;
+}
+
+.recent-expenses {
+  flex: 0 1 800px;
+  max-width: 800px;
+}
+.daily-tip {
+  max-width: 400px;
+  margin-left: auto;
+  width: 100%;
+}
+
+
+/* nwjkngwkjnfgwnk */
+
+.view-all-expenses {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.view-all-expenses a {
+  text-decoration: none;
+  color: #3b82f6;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.view-all-expenses a:hover {
+  color: #1d4ed8;
+}
+
+
+@media (max-width: 768px) {
+  .recent-expense-section {
+    flex-direction: column;
+  }
+
+  .daily-tip {
+    max-width: 100%;
+    margin-top: 20px;
+  }
 }
