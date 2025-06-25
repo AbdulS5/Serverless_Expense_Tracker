@@ -5,7 +5,6 @@ import Sidebar from './components/Sidebar';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import Home from './pages/Home';
-import Chart from './pages/Chart';
 import Expenses from './pages/Expenses';
 import './App.css';
 
@@ -35,8 +34,7 @@ function App() {
       <div className = "container">
         <Routes>
           <Route path = "/" element = {<Home expenses={expenses} onAddExpense = {handleAddExpense} onDeleteExpense = {handleDeleteExpense}/>} />
-          <Route path = "/expenses" element = {<Expenses/>} />
-          <Route path = "/chart" element = {<Chart/>} />
+          <Route path = "/expenses" element = {<Expenses expenses= {expenses} onDeleteExpense = {handleDeleteExpense}/>} />
         </Routes>
       </div>
     </div>

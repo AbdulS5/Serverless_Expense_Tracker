@@ -55,9 +55,6 @@ function Home({expenses,onAddExpense,onDeleteExpense}){
                 <div className='overview-item'>Total this month: ${totalMonth.toFixed(2)}</div>
                 <div className='overview-item'>Total this year: ${totalYear.toFixed(2)}</div>
             </div>
-            <div className='quick-links-section'>
-                <div className='all-expenses'></div>
-            </div>
         </div>
     );
 }

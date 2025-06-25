@@ -13,7 +13,6 @@ function Sidebar() {
         <ul> 
             <li><Link to="/">Home</Link></li>
             <li><Link to="/expenses">Expense List</Link></li>
-            <li><Link to="/chart">Chart</Link></li>
         </ul>
       </div>
     </div>
