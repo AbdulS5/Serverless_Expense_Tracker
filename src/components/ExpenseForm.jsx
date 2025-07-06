@@ -1,4 +1,7 @@
 import {useState} from 'react';
+import "./ExpenseForm.css";
+import { FaPlus } from 'react-icons/fa';
+
 function ExpenseForm({onAddExpense}) {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
@@ -27,31 +30,40 @@ function ExpenseForm({onAddExpense}) {
         setDate("");
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor='title'>Title</label>
-            <input 
-                id='title'
-                type = "text"
-                placeholder="Expense Name" 
-                value={title} 
-                onChange = {(e) => setTitle(e.target.value) }
-            />
-            <label htmlFor='amount'>Amount</label>
-            <input 
-                id='amount'
-                type = "number" 
-                placeholder="Expense Amount" 
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-            />
-            <label htmlFor='date'>Date</label>
-            <input 
-                id='date'
-                type = "date" 
-                value={date}
-                onChange={(e)=> setDate(e.target.value)}
-            />
-            <button type='submit'>Add Expense</button>
+        <form className = "expenses-form"  onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label htmlFor='title'>Title</label>
+                <input 
+                    id='title'
+                    type = "text"
+                    placeholder="Expense Name" 
+                    value={title} 
+                    onChange = {(e) => setTitle(e.target.value) }
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor='amount'>Amount</label>
+                <input 
+                    id='amount'
+                    type = "number" 
+                    placeholder="Expense Amount" 
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor='date'>Date</label>
+                <input 
+                    id='date'
+                    type = "date" 
+                    value={date}
+                    onChange={(e)=> setDate(e.target.value)}
+                />
+            </div>
+            <button type='submit'> 
+                <FaPlus className="plus-icon" />
+                Add Expense
+            </button>
         </form>
     )
 }
