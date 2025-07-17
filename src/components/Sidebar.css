@@ -44,4 +44,20 @@
 
 .links a:hover {
     color: #38bdf8;
-  }
+}
+
+.logout-button {
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+    background-color: #dc2626;
+}
