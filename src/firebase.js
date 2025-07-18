@@ -6,12 +6,12 @@ import { getAuth } from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA0is7pH91-xJ8y1wjKe61UamTTvhGKMqw",
-  authDomain: "serverlessexpensetracker.firebaseapp.com",
-  projectId: "serverlessexpensetracker",
-  storageBucket: "serverlessexpensetracker.firebasestorage.app",
-  messagingSenderId: "516894016904",
-  appId: "1:516894016904:web:168d0d1d42e209800be63d"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
