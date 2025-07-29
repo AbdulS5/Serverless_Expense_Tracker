@@ -31,10 +31,29 @@ function App() {
     localStorage.setItem("expenses",JSON.stringify(expenses))
   },[expenses]);
 
-  const handleAddExpense = (expense) => {
-    // Function to handle adding a new expense
-    setExpenses(prevExpenses => [...prevExpenses, expense]);
+  const handleAddExpense = async (expense) => {
+    try {
+      const response = await fetch('https://dslifoo4mg.execute-api.us-east-2.amazonaws.com/expense', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(expense)
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setExpenses(prev => [...prev, expense]);
+        console.log('Saved to AWS:', data);
+      } else {
+        console.error('Error from Lambda:', data);
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+    }
   };
+  
   const handleDeleteExpense  = (id) => {
     // Function to handle deleting an expense
     setExpenses(prevExpenses => prevExpenses.filter(e => e.id !== id));
