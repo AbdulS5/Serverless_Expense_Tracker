@@ -3,7 +3,7 @@ function ExpenseList({ expenses ,onDeleteExpense}) {
     return (
       <ul className="expense-list">
         {expenses.map((expense) => (
-          <li className="expense-item" key={expense.id}>
+          <li className="expense-item" key={expense.id || expense.expenseId}>
             <div className="expense-info">
               <strong>{expense.title}</strong>
               <div className="expense-amount">${expense.amount}</div>
@@ -11,7 +11,7 @@ function ExpenseList({ expenses ,onDeleteExpense}) {
                 month: "long", day: "numeric", year: "numeric"
               })}</div>
             </div>
-            <button onClick={() => onDeleteExpense(expense.id)}>❌</button>
+            <button onClick={() => onDeleteExpense(expense.id || expense.expenseId)}>❌</button>
           </li>
         ))}
       </ul>

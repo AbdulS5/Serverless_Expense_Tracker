@@ -11,12 +11,14 @@ function YearlyBarChart({expenses}) {
     const currentYear = now.getFullYear();
     expenses.forEach(expense => {
         const date = new Date(expense.date);
-        if(date.getFullYear() === currentYear){
+        const amount = parseFloat(expense.amount);
+        if (
+            !isNaN(date.getTime()) && 
+            !isNaN(amount) &&
+            date.getFullYear() === currentYear
+        ) {
             const month = monthNames[date.getMonth()];
-            if(!monthlyTotal[month]){
-                monthlyTotal[month] = 0;
-            }
-            monthlyTotal[month] += expense.amount;
+            monthlyTotal[month] += amount;
         }
     });
 

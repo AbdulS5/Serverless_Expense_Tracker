@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import './Expenses.css';
 
 function Expenses({expenses,onDeleteExpense}){
-    const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+    const total = expenses.reduce((sum, e) => sum + parseFloat(e.amount), 0);
     return (
         <div className='expenses-page'>
             <h2>All Expenses</h2>

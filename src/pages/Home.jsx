@@ -16,13 +16,16 @@ function Home({expenses,onAddExpense,onDeleteExpense}){
         const date = new Date(expense.date);
         const month = date.getMonth();
         const year = date.getFullYear();
-        if(month === currentMonth && year === currentYear){
-            totalMonth += expense.amount;
+        const amount = parseFloat(expense.amount);
+        if (isNaN(amount)) return;
+    
+        if (month === currentMonth && year === currentYear) {
+            totalMonth += amount;
         }
-        if(year === currentYear){
-            totalYear += expense.amount;
+        if (year === currentYear) {
+            totalYear += amount;
         }
-    })
+    });
 
     return (
         <div className='home-container'>

@@ -12,9 +12,16 @@ function MonthlyBarChart({expenses}) {
     const currentYear = now.getFullYear();
     expenses.forEach(expense => {
         const date = new Date(expense.date);
-        if(date.getMonth() === currentMonth && date.getFullYear() === currentYear){
-            const week = `Week ${Math.ceil(date.getDate()/7)}`;
-            weeklyTotal[week] += expense.amount;
+        const amount = parseFloat(expense.amount);
+    
+        if (
+            !isNaN(date.getTime()) &&
+            !isNaN(amount) &&
+            date.getMonth() === currentMonth &&
+            date.getFullYear() === currentYear
+        ) {
+            const week = `Week ${Math.ceil(date.getDate() / 7)}`;
+            weeklyTotal[week] += amount;
         }
     });
 

@@ -14,37 +14,58 @@ import { auth } from './firebase';
 
 function App() {
   const [user, setUser] = useState(null);
-
+  const [expenses, setExpenses] = useState([]);
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+  
+      if (currentUser) {
+        try {
+          const url = `https://dslifoo4mg.execute-api.us-east-2.amazonaws.com/expense?userId=${currentUser.uid}`;
+          const response = await fetch(url);
+          const data = await response.json();
+  
+          if (response.ok) {
+            setExpenses(data.expenses);
+            console.log('Fetched from AWS:', data.expenses);
+          } else {
+            console.error('Error fetching expenses:', data);
+          }
+        } catch (err) {
+          console.error('Network error:', err);
+        }
+      }
     });
+  
     return () => unsubscribe();
-  },[]);
-  // This is the main App component that renders the ExpenseForm component
-  const [expenses, setExpenses] = useState(()=>{
-    const saved = localStorage.getItem("expenses");
-    return saved ? JSON.parse(saved):[];
-  });
-
-  useEffect(()=>{
-    localStorage.setItem("expenses",JSON.stringify(expenses))
-  },[expenses]);
+  }, []);
 
   const handleAddExpense = async (expense) => {
     try {
+      const user = auth.currentUser;
+  
+      if (!user) {
+        alert('You must be logged in to add expenses.');
+        return;
+      }
+  
+      const expenseWithUser = {
+        ...expense,
+        userId: user.uid
+      };
+  
       const response = await fetch('https://dslifoo4mg.execute-api.us-east-2.amazonaws.com/expense', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(expense)
+        body: JSON.stringify(expenseWithUser)
       });
   
       const data = await response.json();
   
       if (response.ok) {
-        setExpenses(prev => [...prev, expense]);
+        setExpenses(prev => [...prev, data.data]);
         console.log('Saved to AWS:', data);
       } else {
         console.error('Error from Lambda:', data);
@@ -56,7 +77,7 @@ function App() {
   
   const handleDeleteExpense  = (id) => {
     // Function to handle deleting an expense
-    setExpenses(prevExpenses => prevExpenses.filter(e => e.id !== id));
+    setExpenses(prevExpenses => prevExpenses.filter(e => e.expenseId !== id));
   } 
   
   return (
