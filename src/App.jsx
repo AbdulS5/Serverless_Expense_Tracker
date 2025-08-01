@@ -10,15 +10,44 @@ import './App.css';
 import Login from './pages/Login';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
+import { signOut } from "firebase/auth";
 
 
 function App() {
   const [user, setUser] = useState(null);
   const [expenses, setExpenses] = useState([]);
+  const [loading, setLoading]  = useState(true);
+  
+
+  useEffect(() => {
+    if (!user) return;
+
+    let timer;
+    const logoutAfterInactivity = () => {
+      signOut(auth);
+      alert("You have been logged out due to inactivity.");
+    };
+
+    const resetTimer = () => {
+      clearTimeout(timer);
+      timer = setTimeout(logoutAfterInactivity, 2 * 60 * 1000);
+    };
+
+    const events = ['mousemove', 'keydown', 'click'];
+    events.forEach(e => window.addEventListener(e, resetTimer));
+    resetTimer();
+
+    return () => {
+      clearTimeout(timer);
+      events.forEach(e => window.removeEventListener(e, resetTimer));
+    };
+  }, [user]);
+
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-  
+      setTimeout(() => setLoading(false), 400);
       if (currentUser) {
         try {
           const url = `https://dslifoo4mg.execute-api.us-east-2.amazonaws.com/expense?userId=${currentUser.uid}`;
@@ -75,11 +104,40 @@ function App() {
     }
   };
   
-  const handleDeleteExpense  = (id) => {
-    // Function to handle deleting an expense
-    setExpenses(prevExpenses => prevExpenses.filter(e => e.expenseId !== id));
-  } 
+  const handleDeleteExpense = async (expenseId) => {
+    const user = auth.currentUser;
+    if (!user) return;
+    try {
+      const response = await fetch('https://dslifoo4mg.execute-api.us-east-2.amazonaws.com/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.uid,
+          expenseId: expenseId
+        })
+      });
   
+      const data = await response.json();
+  
+      if (response.ok) {
+        setExpenses(prev => prev.filter(e => e.expenseId !== expenseId));
+        console.log("Deleted from AWS:", data);
+      } else {
+        console.error("Lambda error:", data);
+      }
+  
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+        <p className="loading-text">Launching your dashboard...</p>
+      </div>
+    );
+  }
   return (
     <div className='app-container'>
       {user && <Sidebar user={user} />}
