@@ -10,7 +10,7 @@ A modern, full-stack expense tracking web app built with **React**, **Firebase A
 ---
 
 ## 🚀 Live Demo  
-🌐 [Visit the Live Site](www.serverlesstracker.dev)
+🌐 (www.serverlesstracker.dev)
 
 ---
 
